@@ -1,20 +1,20 @@
-DROP TABLE IF EXISTS `dados_2017`;
-DROP TABLE IF EXISTS `cnpjs`;
+DROP TABLE IF EXISTS dados_2017;
+DROP TABLE IF EXISTS cnpjs;
 
-CREATE TABLE `cnpjs`
+CREATE TABLE cnpjs
 (
-  cnpj character varying(50) not null,
-  razao_social text,
-  nome_fantasia text,
-  uf text,
-  municipio text,
-  cep text,
+  cnpj varchar(50) not null,
+  razao_social varchar(255),
+  nome_fantasia varchar(255),
+  uf char(2),
+  municipio varchar(50),
+  cep varchar(20),
   data_abertura character varying(20),
-  situacao text,
+  situacao varchar(255),
   PRIMARY KEY(cnpj)
 );
 
-CREATE TABLE `dados_2017`
+CREATE TABLE dados_2017
 (
 	id smallint not null,
 	txNomeParlamentar varchar(100),
@@ -23,7 +23,7 @@ CREATE TABLE `dados_2017`
 	sgUF char(2),
 	sgPartido char(10),
 	txtDescricaoEspecificacao varchar(255),
-	txtCNPJCPF varchar(50) not null,
+	txtCNPJCPF varchar(50),
 	datEmissao datetime,
 	vlrDocumento float,
 	numMes smallint,
@@ -34,3 +34,32 @@ CREATE TABLE `dados_2017`
 
 create index cnpj1 on cnpjs (cnpj);
 create index cnpj2 on dados_2017 (txtCNPJCPF);
+
+SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT;
+SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS;
+SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION;
+SET NAMES utf8;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0; 
+
+LOAD DATA LOCAL INFILE 'cnpjs.csv' 
+INTO TABLE cnpjs 
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE 'ceapd_2017_colunas_filtradas.csv'
+INTO TABLE dados_2017
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT;
+SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS;
+SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION;
+SET SQL_NOTES=@OLD_SQL_NOTES;
