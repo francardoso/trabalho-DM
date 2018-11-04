@@ -1,7 +1,9 @@
+DROP TABLE IF EXISTS `dados_2017`;
+DROP TABLE IF EXISTS `cnpjs`;
+
 CREATE TABLE `cnpjs`
 (
-	id int not null AUTO_INCREMENT,
-  cnpj character varying(50),
+  cnpj character varying(50) not null,
   razao_social text,
   nome_fantasia text,
   uf text,
@@ -9,7 +11,7 @@ CREATE TABLE `cnpjs`
   cep text,
   data_abertura character varying(20),
   situacao text,
-  PRIMARY KEY(id)
+  PRIMARY KEY(cnpj)
 );
 
 CREATE TABLE `dados_2017`
@@ -21,11 +23,13 @@ CREATE TABLE `dados_2017`
 	sgUF char(2),
 	sgPartido char(10),
 	txtDescricaoEspecificacao varchar(255),
-	txtCNPJCPF varchar(50),
-	datEmissao timestamp,
+	txtCNPJCPF varchar(50) not null,
+	datEmissao datetime,
 	vlrDocumento float,
 	numMes smallint,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (txtCNPJCPF) 
+			REFERENCES cnpjs (cnpj)
 );
 
 create index cnpj1 on cnpjs (cnpj);
