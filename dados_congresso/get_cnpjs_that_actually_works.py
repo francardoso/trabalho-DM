@@ -8,7 +8,7 @@ file_cnpjs = 'respostas_receita_cnpjs.csv'
 file_ceapd = 'ceapd_2017.csv'
 url = 'https://www.receitaws.com.br/v1/cnpj/:cnpj'
 data = None
-sleep_secs = 10
+sleep_secs = 30
 CAMPOS_INTERESSE = ['cnpj','nome','fantasia','uf','atividade_principal','uf','municipio','cep','abertura','situacao']
 
 # Cria arquivo de CNPJs únicos ou lê caso já exista
