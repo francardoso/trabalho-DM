@@ -60,19 +60,20 @@ for arquivo in arquivos:			#itera todos os arquivos passados como argumento (ou 
 		o.write(p + "Região " + regiao + pt)
 		for partido in partidos:
 			print('partido: ' + str(partido))
-			df_por_partido_e_regiao = df_colunas_filtradas[(df_colunas_filtradas['sgPartido'] == partido) & (df_colunas_filtradas['sgUF'].isin(REGIOES[regiao]))]
-
+			df_por_partido_e_regiao = df_colunas_filtradas[
+				(df_colunas_filtradas['sgPartido'] == partido) & (df_colunas_filtradas['sgUF'].isin(REGIOES[regiao]))
+			]
 			total_deputados_regiao = len(df_por_partido_e_regiao['txNomeParlamentar'].unique())
 			print(total_deputados_regiao)
-			if(total_deputados_regiao == 0):
+			if(total_deputados_regiao == 0):		#gambiarra, tem como ser melhor
 				continue
 			o.write(pt+"Partido " + partido + pt)
 			o.write("N. total de deputados na região: " + str(total_deputados_regiao) + pt)
-			coluna_vlrDocumento = pd.to_numeric(df_por_partido_e_regiao['vlrDocumento'].str.replace(',','.'))
+			coluna_vlrDocumento = pd.to_numeric(df_por_partido_e_regiao['vlrDocumento'].str.replace(',','.'))		#"limpa" valores pra poderem ser convertidos pra float
 			df_por_partido_e_regiao.update(coluna_vlrDocumento)
-			gastos_totais = round(df_por_partido_e_regiao['vlrDocumento'].sum(),2)
+			gastos_totais = round(df_por_partido_e_regiao['vlrDocumento'].sum(),2)		#pega gastos totais do partido na região
 			o.write("Gastos totais do partido " + partido + " na região " + regiao + ": " + str(gastos_totais) + pt)		#TODO FAZER POR ANO
-			gastos_por_candidato = round(gastos_totais/float(total_deputados_regiao),2)
+			gastos_por_candidato = round(gastos_totais/float(total_deputados_regiao),2)		#pega relação de gastos/deputados
 			o.write("Relação gastos/candidato: " + str(gastos_por_candidato) + pt + p)
 	o.close()
 
